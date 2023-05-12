@@ -1,43 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>My Metamask Detect and Connect Site</title>
-</head>
-<body>
-  <h1>My Metamask Detect and Connect Site</h1>
-  <p>This is a simple HTML site that demonstrates how to detect and connect Metamask.</p>
-  <script>
-    function detectMetamask() {
-      // Check if Metamask is installed.
-      if (typeof window.ethereum !== "undefined") {
-        // Display a message indicating that Metamask is installed.
-        document.getElementById("metamask-installed").innerHTML = "Metamask is installed.";
-      } else {
-        // Display a message indicating that Metamask is not installed.
-        document.getElementById("metamask-installed").innerHTML = "Metamask is not installed.";
-      }
-    }
-    
-    function connectMetamask() {
-      // Connect to Metamask.
-      window.ethereum.request({
-        method: "eth_accounts",
-        success: function(accounts) {
-          // Get the user's first account.
-          var account = accounts[0];
-          // Display the user's account address.
-          document.getElementById("account-address").innerHTML = account;
-        },
-        error: function(error) {
-          // Handle error.
-          console.log(error);
-        }
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+  <body>
+    <button id="connect-button">Connect Metamask</button>
+    <script>
+      document.getElementById('connect-button').addEventListener('click', event => {
+        let account;
+        let button = event.target;
+        ethereum.request({method: 'eth_requestAccounts'}).then(accounts => {
+          account = accounts[0];
+          console.log(account);
+          button.textContent = account;
+
+          ethereum.request({method: 'eth_getBalance' , params: [account, 'latest']}).then(result => {
+            console.log(result);
+            let wei = parseInt(result,16);
+            let balance = wei / (10**18);
+            console.log(balance + " ETH");
+          });
+        });
       });
-    }
-  </script>
-  <button onclick="detectMetamask()">Detect Metamask</button>
-  <button onclick="connectMetamask()">Connect Metamask</button>
-  <div id="metamask-installed"></div>
-  <div id="account-address"></div>
-</body>
+    </script>  
+  </body>
 </html>
