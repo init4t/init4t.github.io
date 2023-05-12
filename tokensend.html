@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="styles.css" />
   </head>
   <body>
-    <button id="connect-button">Connect Metamask</button>
+    <button id="connect-button">Connect Wallet</button>
     <script>
       document.getElementById('connect-button').addEventListener('click', event => {
         let account;
@@ -15,14 +15,23 @@
           console.log(account);
           button.textContent = account;
 
+          // Get the network ID from the wallet
+          let networkId = ethereum.request({method: 'eth_chainId'}).then(result => result);
+
+          // Set the network ID for the request
+          ethereum.setNetworkId(networkId);
+
+          // Request the user's balance from the blockchain
           ethereum.request({method: 'eth_getBalance' , params: [account, 'latest']}).then(result => {
             console.log(result);
             let wei = parseInt(result,16);
             let balance = wei / (10**18);
-            console.log(balance + " ETH");
+            console.log(balance + " " + ethereum.network.name + "");
+            document.getElementById("chainId").innerHTML = "You are connected to chain ID " + networkId;
           });
         });
       });
-    </script>  
+    </script>
+    <div id="chainId"></div>
   </body>
 </html>
