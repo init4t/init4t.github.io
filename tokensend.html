@@ -1,77 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My Disperse App</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Simple dapp</title>
+  <script type="module" src="main.js"></script>
 </head>
 <body>
-  <h1>My Disperse App</h1>
-  <p>This is a simple HTML site that demonstrates how to disperse tokens to a given list of addresses.</p>
-  <script>
-    function connectMetamask() {
-      // Check if Metamask is installed.
-      if (typeof window.ethereum !== "undefined") {
-        // Connect to Metamask.
-        window.ethereum.request({
-          method: "eth_accounts",
-          success: function(accounts) {
-            // Get the user's first account.
-            var account = accounts[0];
-            // Display the user's account address.
-            document.getElementById("account-address").innerHTML = account;
-          },
-          error: function(error) {
-            // Handle error.
-            console.log(error);
-          }
-        });
-      } else {
-        // Redirect the user to the Metamask download page.
-        window.location.href = "https://metamask.io/download";
-      }
-    }
-    
-    function disperseTokens() {
-      // Get the list of recipients and amounts.
-      const recipients = [
-        {
-          address: document.getElementById("recipient-1").value,
-          amount: document.getElementById("amount-1").value,
-        },
-        {
-          address: document.getElementById("recipient-2").value,
-          amount: document.getElementById("amount-2").value,
-        },
-        {
-          address: document.getElementById("recipient-3").value,
-          amount: document.getElementById("amount-3").value,
-        },
-      ];
-    
-      // Import the disperse library.
-      const disperse = require('disperse');
-    
-      // Create a new disperse instance.
-      const disperseInstance = new disperse(accountAddress);
-    
-      // Disperse the tokens.
-      disperseInstance.disperse(recipients, (err, txHash) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log('Transaction hash:', txHash);
-        }
-      });
-    }
-  </script>
-  <button onclick="connectMetamask()">Connect Metamask</button>
-  <div id="account-address"></div>
-  <h2>Recipients</h2>
-  <input id="recipient-1" type="text" placeholder="Recipient 1 Address" />
-  <input id="amount-1" type="number" placeholder="Recipient 1 Amount" />
-  <input id="recipient-2" type="text" placeholder="Recipient 2 Address" />
-  <input id="amount-2" type="number" placeholder="Recipient 2 Amount" />
-  <input id="recipient-3" type="text" placeholder="Recipient 3 Address" />
-  <input id="amount-3" type="number" placeholder="Recipient 3 Amount" />
-  <button onclick="disperseTokens()">Disperse Tokens</button>
+  <!-- Display a connect button and the current account -->
+  <button class="enableEthereumButton">Enable Ethereum</button>
+  <h2>Account: <span class="showAccount"></span></h2>
 </body>
 </html>
