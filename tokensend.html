@@ -1,14 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Simple dapp</title>
-  <script type="module" src="main.js"></script>
+  <title>My Metamask Detect and Connect Site</title>
 </head>
 <body>
-  <!-- Display a connect button and the current account -->
-  <button class="enableEthereumButton">Enable Ethereum</button>
-  <h2>Account: <span class="showAccount"></span></h2>
+  <h1>My Metamask Detect and Connect Site</h1>
+  <p>This is a simple HTML site that demonstrates how to detect and connect Metamask.</p>
+  <script>
+    function detectMetamask() {
+      // Check if Metamask is installed.
+      if (typeof window.ethereum !== "undefined") {
+        // Display a message indicating that Metamask is installed.
+        document.getElementById("metamask-installed").innerHTML = "Metamask is installed.";
+      } else {
+        // Display a message indicating that Metamask is not installed.
+        document.getElementById("metamask-installed").innerHTML = "Metamask is not installed.";
+      }
+    }
+    
+    function connectMetamask() {
+      // Connect to Metamask.
+      window.ethereum.request({
+        method: "eth_accounts",
+        success: function(accounts) {
+          // Get the user's first account.
+          var account = accounts[0];
+          // Display the user's account address.
+          document.getElementById("account-address").innerHTML = account;
+        },
+        error: function(error) {
+          // Handle error.
+          console.log(error);
+        }
+      });
+    }
+  </script>
+  <button onclick="detectMetamask()">Detect Metamask</button>
+  <button onclick="connectMetamask()">Connect Metamask</button>
+  <div id="metamask-installed"></div>
+  <div id="account-address"></div>
 </body>
 </html>
