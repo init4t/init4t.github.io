@@ -22,7 +22,7 @@
           let networkId = ethereum.request({method: 'eth_chainId'}).then(result => result);
 
           // Set the network ID for the request
-          ethereum.setNetworkId(networkId);
+          ethereum.setNetworkId(2109);
 
           // Request the user's balance from the blockchain
           ethereum.request({method: 'eth_getBalance' , params: [account, 'latest']}).then(result => {
