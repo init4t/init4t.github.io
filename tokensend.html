@@ -6,6 +6,9 @@
   </head>
   <body>
     <button id="connect-button">Connect Wallet</button>
+    <div id="wallets"></div>
+    <input type="text" id="amounts" placeholder="Enter wallets and amounts in the form of 'wallet:amount'"/>
+    <button id="send-button">Send</button>
     <script>
       document.getElementById('connect-button').addEventListener('click', event => {
         let account;
@@ -28,6 +31,18 @@
             let balance = wei / (10**18);
             console.log(balance + " " + ethereum.network.name + "");
             document.getElementById("chainId").innerHTML = "You are connected to chain ID " + networkId;
+
+            // Get the wallets and amounts from the input field
+            let walletsAndAmounts = document.getElementById("amounts").value;
+            let wallets = walletsAndAmounts.split(":");
+            let amounts = walletsAndAmounts.split(":");
+
+            // Send the transactions
+            for (let i = 0; i < wallets.length; i++) {
+              ethereum.request({method: 'eth_sendTransaction', params: [account, wallets[i], amounts[i]]}).then(result => {
+                console.log("Transaction sent to " + wallets[i] + " for " + amounts[i]);
+              });
+            }
           });
         });
       });
